@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
-
 #include "Mapping.h"
 
 class MinMax
@@ -21,7 +20,7 @@ public:
 	void getMin(Mapping mm, int nbElement, int nbMap)
 	{	cout << "Les " << nbElement << " clés associées à la plus petite valeur" << endl;
 		for (int i = 0; i<nbMap; i++)
-		{	
+		{
 			multi current = mm.getMesMultis()[i];
 			// place l'itératteur du multimapp au début de la multi courante.
 			it = current.begin();
@@ -29,7 +28,7 @@ public:
 			// boucle au nombre entré en argument à l'exécution du programme.
 			for(int j = 0; j<nbElement; j++)
 			{
-				// affichage de la value
+				// affichage de la valeur
 				cout << it->second << " ";
 				// incrémente l'itérateur.
 				++it;
@@ -63,15 +62,13 @@ public:
 				for(int k = 0; k < maxSize; k++)
 				{
 					cout << mm.getTitres()[i] << " les clés associées à la valeur " << max[k] << " sont: ";
-					// affiche tous les occurances de la clef trouvées avec le equal_range.
+					// Avec le equal_range, affiche tous les valeurs en ordre alphabétique de la clef trouvées.
 					for (mmIt = current.equal_range(max[k]).first; mmIt != current.equal_range(max[k]).second; mmIt++)
 						cout  << mmIt->second << " ";
 					cout << endl;
 				}
 			}
 	}
-
-
 };
 
 #endif // MINMAX_H

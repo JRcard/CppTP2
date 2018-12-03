@@ -5,7 +5,6 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
 #include <string>
 #include <algorithm>
 
@@ -15,19 +14,8 @@ class Mapping
 {
 	typedef map<string, int> map;
 	typedef multimap<int, string> multi;
-	map arlequin;
-	map camelias;
-	map germinal;
-	map ptprince;
-	map mappeGlobal;
-	
-	multi multiArlequin;
-	multi multiCamelias;
-	multi multiGerminal;
-	multi multiPtprince;
-	multi multiMappeGlobal;
-	
-	
+	map arlequin, camelias, germinal, ptprince, mappeGlobal;
+	multi multiArlequin, multiCamelias, multiGerminal, multiPtprince, multiMappeGlobal;
 	vector<map> mesMappes;
 	vector<multi> mesMultis;
 	vector<string> titres;
@@ -36,6 +24,7 @@ public:
 	
 	Mapping(vector<string> lesLivres)
 	{
+		// place les mappes dans leur vector respectif.
 		mesMappes.push_back(arlequin);
 		mesMappes.push_back(camelias);
 		mesMappes.push_back(germinal);
@@ -46,6 +35,7 @@ public:
 		mesMultis.push_back(multiGerminal);
 		mesMultis.push_back(multiPtprince);
 		
+		// déclaration d'une variable de type fichier de lecture.
 		ifstream livre;
 		int grandeurLivres = lesLivres.size();
 		for (int i = 0; i < grandeurLivres; i++)
@@ -61,7 +51,7 @@ public:
 					for_each(mot.begin(), mot.end(), [](char & c) {c = ::tolower(c);});
 					if (!mot.empty())
 					{
-						insert(mappeGlobal, mot);
+						insert(mappeGlobal, mot); // attrape tous les mots pour le "5e fichier"
 						insert(mesMappes[i], mot);
 					}
 				}
@@ -87,7 +77,8 @@ public:
 
 		mesMultis.push_back(multiMappeGlobal);
 	}
-
+	/* Fonction insert qui permet de compter les occurences du même mot
+	 * si il n'est pas déjà dans la mappes, la clef est créer avec a valeur 1.*/
 	void insert(map &theMap, string mot)
 	{
 		if(theMap.find(mot) != theMap.end())

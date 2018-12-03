@@ -5,7 +5,6 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
 #include <string>
 #include <algorithm>
 #include "Mapping.h"
@@ -16,7 +15,6 @@ class Compare
 	typedef map<string, int> map;
 	ofstream diff, inter;
 	vector<string> nomDiff, nomInter;
-	// int filesNameSize;
 	string prefixe, middle;
 	
 public:
@@ -26,19 +24,21 @@ public:
 		opt5_Opt6(mm);
 	}
 
+	// génère les nom de fichier pour les opérations 5-6.
 	void getNameFiles(vector<string>& f)
 	{
 		int fSize = f.size();
 		for (int i = 0; i < fSize; i++)
 		{
-			this->prefixe = f[i].substr(11, 3);
+			prefixe = f[i].substr(11, 3); // capture le préfixe pour le nom de fichier
 			for (int j = 0; j < fSize; j++)
 			{
-				this->middle = f[j].substr(11, 3);
-				if (this->prefixe != this->middle)
+				middle = f[j].substr(11, 3); // capture le milieu pour le nom de fichier
+				if (prefixe != middle) // si les noms sont différent.
 				{
-					this->nomDiff.push_back(this->prefixe + this->middle + "diff.txt");
-					this->nomInter.push_back(this->prefixe + this->middle + "inter.txt");
+					// ajoute les noms aux bons vectors.
+					nomDiff.push_back(prefixe + middle + "diff.txt");
+					nomInter.push_back(prefixe + middle + "inter.txt");
 				}
 			}
 		}
@@ -50,29 +50,40 @@ public:
 		int mmSize = mm.getSize();
 		int nomDiffSize = nomDiff.size();
 		int f = 0;
+		// pendant que f est plus petit que le vector des nom de fichier.
 		while (f < nomDiffSize) 
 		{
 			for (int i = 0; i < mmSize - 1; i++)
 			{	
-				m1 = mm.getMesMappes()[i];
+				m1 = mm.getMesMappes()[i]; // attrape une map
 				for (int j = 0; j < mmSize - 1; j++)
 				{
-					m2 = mm.getMesMappes()[j];
-					if (m1 != m2)
+					m2 = mm.getMesMappes()[j]; // attrape une seconde map.
+					if (m1 != m2) // si ce n'est pas les mêmes.
 					{
+						/* ouvrture des fichiers:
+						 * comme les vectors de nom de fichier a été fait de la même manière
+						 * que la récupération des mappes, l'ordre des comparaisons sera la même.*/
 						inter.open("option6/" + nomInter[f]);
 						diff.open("option5/" + nomDiff[f]);
-						if(diff.is_open() && inter.is_open())
+						// si les deux fichier sont bien ouvert, on procède.
+						if(diff.is_open() && inter.is_open()) 
 						{
-							for (auto e : m1)
+							// pour tous les éléments "e" de la mappe 1.
+							for (auto e : m1) 
 							{
+								// si, dans la mappe 2, la clef correspondant à la clef de l'élément "e" courant est trouvée,
 								if (m2.find(e.first) != m2.end())
+									// on l'inscrit dans le fichier qui recense les éléments semblables.
 									inter << e.first << " " <<  e.second << endl;
-									
+								/* si il ne le trouve pas cela signifie que l'élément n'est pas commun au deux listes.
+								 * il est donc inscrit dans le fichier qui recense les différences.*/
 								else diff << e.first << " " <<  e.second << endl;
 							}
+							// fermeture des fichiers
 							diff.close();
 							inter.close();
+							// incrémente la liste des nom de fichier.
 							f++;
 						}
 						else cerr << "file not created\n";

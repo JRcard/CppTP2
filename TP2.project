@@ -93,7 +93,6 @@
     </Configuration>
   </Settings>
   <VirtualDirectory Name="src">
-    <File Name="Compare.cpp"/>
     <File Name="Compare.h"/>
     <File Name="MinMax.h"/>
     <File Name="Mapping.h"/>
